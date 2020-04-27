@@ -12,8 +12,7 @@ La carpeta propone una estructura de flujo de trabajo reproducible y ordenado, c
 Para su uso se sugiere:
 
 1. Clonar este repositorio a una cuenta de Github propia. 
-2. Luego, descargar el proyecto a su computador personal o copiarlo a su sesión de *RStudio Cloud* desde [este enlace](		RCloud: https://rstudio.cloud/project/1206981
-).
+2. Luego, descargar el proyecto a su computador personal o copiarlo a su sesión de *RStudio Cloud* desde [este enlace](https://rstudio.cloud/project/1206981).
 3. Finalmente, abrir el proyecto R y vincularlo (desde RStudio o RStudio Cloud) al repositorio propio creado en el paso 1, para de tal modo poder respaldar - si se desea - los cambios realizados en el repositorio online Github.
     + Esto introduciendo 'git remote set-url origin https://github.com/tu-nombre-de-usuario/clase6-2020' en la terminal.
     + Al efectuar 'push' para actualizar los cambios en línea, deberás ingresar tu nombre de usuario y contraseña Github.
