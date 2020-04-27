@@ -32,19 +32,19 @@ setwd("~/Dropbox/Felipe/Docencia/Universidad de Chile/Magister CCSS UCH/C. Elect
 
 # A. Abrir archivo paraguay desde CSV (ojo con diferencias Linux/Windows)
 #NOTACIÓN EEUU: decimales como punto y no coma
-paraguay_csv <- read.csv("paraguay.csv")
+paraguay_csv <- read.csv("datos/paraguay.csv")
 View(paraguay_csv) # Base no se lee correctamente, no se separan bien columnas
 
 #¿Qué pasa si usamos una función adecuada a notación latina?
 #lee comas como decimales y punto y comas como separador de variables
-paraguay_csv2 <- read.csv2("paraguay.csv")
+paraguay_csv2 <- read.csv2("datos/paraguay.csv")
 View(paraguay_csv2) 
 # podemos eliminar manualmente primera fila para leer correctamente nombre variable
 
 # B. Abrir archivo paraguay desde excel.
 library(readxl) 
 
-paraguay_excel <- read_excel("paraguay.xlsx") 
+paraguay_excel <- read_excel("datos/paraguay.xlsx") 
 
 head(paraguay_excel) 
 
@@ -52,11 +52,11 @@ head(paraguay_excel)
 
 #Uso de argumentos en función read_excel
 
-paraguay_excel <- read_excel("paraguay.xlsx", sheet = 2) # posición de la hoja
+paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = 2) # posición de la hoja
 
-paraguay_excel <- read_excel("paraguay.xlsx", sheet = "respuestas") # nombre hoja
+paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = "respuestas") # nombre hoja
 
-paraguay_excel <- read_excel("paraguay.xlsx", sheet = "respuestas", skip = 1) #saltar fila de preguntas del cuestionario
+paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = "respuestas", skip = 1) #saltar fila de preguntas del cuestionario
 
 #Es preciso indicar el nombre o posición de la hoja y desde qué fila leer datos. 
 #Por defecto la función lee como nombre de variable la primera fila que lee.
@@ -69,10 +69,10 @@ paraguay_excel <- read_excel("paraguay.xlsx", sheet = "respuestas", skip = 1) #s
 library(haven)
 
 # Para leer desde SPSS
-CEP_dic19_spss <- read_sav("CEP_dic2019.sav")
+CEP_dic19_spss <- read_sav("datos/CEP_dic2019.sav")
 
 #Para leer desde Stata
-CEP_dic19_stata <- read_dta("CEP_dic2019.dta")
+CEP_dic19_stata <- read_dta("datos/CEP_dic2019.dta")
 
 # Visualizar encuesta CEP en PSPP
 
@@ -158,6 +158,10 @@ table(CEP$edad_rango)
 CEP$edad_rango <- factor(CEP$edad_rango, labels= c("18-29", "30-49", "50-69", "70+"))
 table(CEP$edad_rango)
 
+# Guardar base de datos con selección de variables y variables recodificadas
+
+save(CEP, file = "datos/CEP_dic19_seleccion.RData")
+
 # ---- 3. BREVE ANÁLISIS ----
 
 table(CEP$sexorec, CEP$O19_rec)
@@ -170,10 +174,6 @@ table(CEP$edad_rango, CEP$O19_rec)
 
 prop.table(table(CEP$edad_rango, CEP$O19_rec))*100
 prop.table(table(CEP$edad_rango, CEP$O19_rec),1)*100
-
-# Guardar base de datos con selección de variables y variables recodificadas
-
-save(CEP, file = "CEP_dic19_seleccion.RData")
 
 # ---- 4. TALLER PRÁCTICO: CARGAR DATOS PROPIOS, SELECCIONAR VARIABLES A UTILIAR ----
 
@@ -190,4 +190,4 @@ save(CEP, file = "CEP_dic19_seleccion.RData")
 # Guardar sintaxis y base de datos en formato R
 
 
-save(datos, file = "base_electivo.RData") # ¿Dónde queda guardada?
+save(datos, file = "datos/base_electivo.RData") # ¿Dónde queda guardada?
