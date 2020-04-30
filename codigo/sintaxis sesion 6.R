@@ -1,23 +1,28 @@
 # ELECTIVO: CIENCIA ABIERTA Y SOFTWARE LIBRE.
-# MAGÍSTER EN CCSS UNIVERSIDAD DE CHILE - 2020 
+# MAGÃSTER EN CCSS UNIVERSIDAD DE CHILE - 2020 
+
+# Ver asunto de codificaciÃ³n de idioma (estandarizar a UTF-8)
 
 # Mandar paquetes a instalar previamente
-# Clase y diapos: contenidos; documentación tidyverse; PSPP; CEP y taller datos propios
+# Clase y diapos: contenidos; documentaciÃ³n tidyverse; PSPP; CEP y taller datos propios
 
 # ---- 0. PAQUETES A INSTALAR ---
 
 install.packages(c("readxl", "tidyverse", "haven", "car"))
 
-# ---- 1. IMPORTACIÓN DE DATOS A R, DESDE DIFERENTES FORMATOS ----
+# ---- 1. IMPORTACIÃ“N DE DATOS A R, DESDE DIFERENTES FORMATOS ----
 
-# Primero que todo, definir carpeta de trabajo
+# Para ganar en reproductibilidad, es mejor trabajar con "proyectos de R".
+# Es una ubicaciÃ³n mandatada de forma automÃ¡tica por un archivo .Rproj
+
+
+# Aunque es poco recomendable, podemos defnir manualmente la carpeta de trabajo
 #Botones: Session -> Set Working Directory -> Choose directory -> Elegir carpeta
-#Abreviación de botones: Ctrl + Shift + H
+#AbreviaciÃ³n de botones: Ctrl + Shift + H
 
 #Escogemos la carpeta donde tengamos nuestros archivos (sintaxis, base de datos a usar)
-setwd("~/Dropbox/Felipe/Docencia/Universidad de Chile/Magister CCSS UCH/C. Electivo Metodología/clases/clase 6")
+setwd("~/Dropbox/Felipe/Docencia/Universidad de Chile/Magister CCSS UCH/C. Electivo MetodologÃ­a/clases/clase 6")
 
-# Si estamos trabajando con un proyecto, esto está pre-definido por la ubicación del proyecto
 
 #VEREMOS COMO IMPORTAR BASES DE DATOS DESDE 4 TIPOS DE DATOS: CSV, EXCEL, SPSS, STATA
 
@@ -27,15 +32,15 @@ setwd("~/Dropbox/Felipe/Docencia/Universidad de Chile/Magister CCSS UCH/C. Elect
 #Esto lo hacemos desde explorador de archivos en "guardar como"
 
 #Observar estructura interna (abrir CSV con bloc de notas)
-#Notación latinoamericana (, decimales - ; separador)
-#Notación EEUU/EUROPA (. decimales - , separador)
+#NotaciÃ³n latinoamericana (, decimales - ; separador)
+#NotaciÃ³n EEUU/EUROPA (. decimales - , separador)
 
 # A. Abrir archivo paraguay desde CSV (ojo con diferencias Linux/Windows)
-#NOTACIÓN EEUU: decimales como punto y no coma
+#NOTACIÃ“N EEUU: decimales como punto y no coma
 paraguay_csv <- read.csv("datos/paraguay.csv")
 View(paraguay_csv) # Base no se lee correctamente, no se separan bien columnas
 
-#¿Qué pasa si usamos una función adecuada a notación latina?
+#Â¿QuÃ© pasa si usamos una funciÃ³n adecuada a notaciÃ³n latina?
 #lee comas como decimales y punto y comas como separador de variables
 paraguay_csv2 <- read.csv2("datos/paraguay.csv")
 View(paraguay_csv2) 
@@ -48,18 +53,18 @@ paraguay_excel <- read_excel("datos/paraguay.xlsx")
 
 head(paraguay_excel) 
 
-#¿Cuál es el problema?
+#Â¿CuÃ¡l es el problema?
 
-#Uso de argumentos en función read_excel
+#Uso de argumentos en funciÃ³n read_excel
 
-paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = 2) # posición de la hoja
+paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = 2) # posiciÃ³n de la hoja
 
 paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = "respuestas") # nombre hoja
 
 paraguay_excel <- read_excel("datos/paraguay.xlsx", sheet = "respuestas", skip = 1) #saltar fila de preguntas del cuestionario
 
-#Es preciso indicar el nombre o posición de la hoja y desde qué fila leer datos. 
-#Por defecto la función lee como nombre de variable la primera fila que lee.
+#Es preciso indicar el nombre o posiciÃ³n de la hoja y desde quÃ© fila leer datos. 
+#Por defecto la funciÃ³n lee como nombre de variable la primera fila que lee.
 
 # Limpiar entorno de trabajo
 
@@ -78,44 +83,37 @@ CEP_dic19_stata <- read_dta("datos/CEP_dic2019.dta")
 
 # Eliminar base stata manualmente desde entorno
 
-# ---- 2. RECODIFICACIÓN Y TRANSFORMACIÓN DE VARIABLES ----
+# ---- 2. RECODIFICACIÃ“N Y TRANSFORMACIÃ“N DE VARIABLES ----
 
-# Análisis global de los datos
+# AnÃ¡lisis global de los datos
 class(CEP_dic19_spss) # Tipo de objeto
 dim(CEP_dic19_spss) # Dimensiones de la matriz
 names(CEP_dic19_spss) # Nombres de las variables
 
-# Selección de variables de interés 
+# SelecciÃ³n de variables de interÃ©s 
 library(dplyr) #Cargar paquete'dplyr'
-
-# Usaremos menos en esta sesión, todas son para ejemplos posteriores
 
 # Sexo: DS_P1
 # Edad: DS_P2_EXACTA (intervalar)
-# Tramo ingreso individual: DS_P29 (ORDINAL)
-# identificación/simpatía partidos (nominal): MB_P8
-# posición política (nominal): MB_P9 
 # Apoyo o rechazo octubre 19: ESP_32
-# Frecuencia acuerdo acción directa como forma de manifestación
-# ESP_41_1 a ESP_41_5
-# Justificación represión
-# ESP_42_1 a ESP_42_3 (Carabineros), 
-#ESP_43 (violación DDH carabineros, invertir), ESP_44 (violación DDHH FFAA, invertir)
 
 CEP <- select(CEP_dic19_spss, DS_P1, DS_P2_EXACTA,MB_P8,MB_P9,
               ESP_32, ESP_41_1, ESP_41_2,ESP_41_3,ESP_41_4,ESP_41_5,
               ESP_42_1, ESP_42_2, ESP_42_3, ESP_43, ESP_44)
 
-#Renombraremos sólo algunas variables
-CEP <- rename(CEP, sexo = DS_P1, O19 = ESP_32, edad = DS_P2_EXACTA)
+#Renombraremos sÃ³lo algunas variables
+CEP <- select(CEP_dic19_spss, sexo = DS_P1, O19 = ESP_32, edad = DS_P2_EXACTA)
 
-# RECODIFICACIÓN
+CEP <- rename(CEP, sexo = zap_labels(DS_P1), O19 = ESP_32, edad = DS_P2_EXACTA)
+
+
+# RECODIFICACIÃ“N
 
 # Sexo (nominal)
 #---------------
 table(CEP$sexo) #1 = hombre, 2 = mujer
 class(CEP$sexo)
-CEP$sexo <- as.numeric(CEP$sexo) #convertir a vector numérico para poder transformar
+CEP$sexo <- as.numeric(CEP$sexo) #convertir a vector numÃ©rico para poder transformar
 
 CEP <- mutate(CEP, sexorec = recode(CEP$sexo, "1" = "hombre", "2" = "mujer"))
 class(CEP$sexorec) #queda como objeto character
@@ -130,8 +128,8 @@ table(CEP$O19)
 class(CEP$O19)
 CEP$O19 <- as.numeric(CEP$O19)
 
-#Especificar paquete desde el cual queremos ejecutar la función 'recode' 
-#para poder recodificar según tramos
+#Especificar paquete desde el cual queremos ejecutar la funciÃ³n 'recode' 
+#para poder recodificar segÃºn tramos
 CEP <- mutate(CEP, O19_rec = car::recode(CEP$O19, "1:2 = 1; 3 = 2; 
                                          4:5 = 3; else = NA"))
 table(CEP$O19_rec)
@@ -143,13 +141,13 @@ table(CEP$O19_rec)
 # edad (intervalar)
 #------------------
 
-#Recodificar en números asociados a rangos. 18-29; 30-49; 50-69; 70 o más.
+#Recodificar en nÃºmeros asociados a rangos. 18-29; 30-49; 50-69; 70 o mÃ¡s.
 summary(CEP$edad)
 class(CEP$edad)
 CEP$edad <- as.numeric(CEP$edad)
 
-#Especificar paquete desde el cual queremos ejecutar la función 'recode' 
-#para poder recodificar según tramos
+#Especificar paquete desde el cual queremos ejecutar la funciÃ³n 'recode' 
+#para poder recodificar segÃºn tramos
 CEP <- mutate(CEP, edad_rango = car::recode(CEP$edad, "18:29 = 1;30:49 = 2;
                                             50:69 =3; else = 4"))
 table(CEP$edad_rango)
@@ -158,11 +156,15 @@ table(CEP$edad_rango)
 CEP$edad_rango <- factor(CEP$edad_rango, labels= c("18-29", "30-49", "50-69", "70+"))
 table(CEP$edad_rango)
 
-# Guardar base de datos con selección de variables y variables recodificadas
+# Guardar base de datos con selecciÃ³n de variables y variables recodificadas
 
-save(CEP, file = "datos/CEP_dic19_seleccion.RData")
+saveRDS(CEP, file = "datos/CEP_dic19_seleccion.rds", compress = F)
 
-# ---- 3. BREVE ANÁLISIS ----
+# Limpiar entorno de trabajo y cargar base guardada
+
+base<- readRDS("datos/CEP_dic19_seleccion.rds")
+
+# ---- 3. BREVE ANÃLISIS ----
 
 table(CEP$sexorec, CEP$O19_rec)
 
@@ -175,19 +177,18 @@ table(CEP$edad_rango, CEP$O19_rec)
 prop.table(table(CEP$edad_rango, CEP$O19_rec))*100
 prop.table(table(CEP$edad_rango, CEP$O19_rec),1)*100
 
-# ---- 4. TALLER PRÁCTICO: CARGAR DATOS PROPIOS, SELECCIONAR VARIABLES A UTILIAR ----
+# ---- 4. TALLER PRÃCTICO: CARGAR DATOS PROPIOS, SELECCIONAR VARIABLES A UTILIAR ----
 
 # Instalar paquetes necesarios
 
-# Cargar paquetes a utilizar en sesión de trabajo
+# Cargar paquetes a utilizar en sesiÃ³n de trabajo
 
 # Definir carpeta de trabajo
 
 # Leer base de datos y guardarla como objeto R
 
-# Crear nueva base con subconjunto de variables específico a analizar
+# Crear nueva base con subconjunto de variables especÃ­fico a analizar
 
 # Guardar sintaxis y base de datos en formato R
 
-
-save(datos, file = "datos/base_electivo.RData") # ¿Dónde queda guardada?
+save(datos, file = "datos/base_electivo.rds") # Â¿DÃ³nde queda guardada?
