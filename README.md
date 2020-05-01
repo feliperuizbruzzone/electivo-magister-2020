@@ -7,7 +7,7 @@ La carpeta propone una estructura de flujo de trabajo reproducible y ordenado, c
 - Se basa en un proyecto R cuyo archivo es "clase6_2020.Rproj" que configura la carpeta de trabajo del proyecto. Esta carpeta contiene tres subcarpetas explicadas a continuación:
 - **códigos**: espacio para almacenar sintaxis de R.
 - **datos**: espacio para almacenar los datos que se analizarán, así como para evacuar el resultado de modificaciones sobre estos datos.
-- **material adicional**: espacio para almecenar material complementario. En este caso, se encuentra un archivo vinculado a la encuesta CEP, específicamente su *Manual del Usuario*.
+- **material adicional**: espacio para almecenar material complementario. En este caso, se encuentran dos materiales: i) un archivo vinculado a la encuesta CEP, específicamente su *Manual del Usuario*; ii) una pauta para desarrollar una actividad de aprendizaje durante la semana.
 
 Para su uso se sugiere:
 
