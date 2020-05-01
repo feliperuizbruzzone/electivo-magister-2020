@@ -97,14 +97,15 @@ library(dplyr) #Cargar paquete'dplyr'
 # Edad: DS_P2_EXACTA (intervalar)
 # Apoyo o rechazo octubre 19: ESP_32
 
-CEP <- select(CEP_dic19_spss, DS_P1, DS_P2_EXACTA,MB_P8,MB_P9,
-              ESP_32, ESP_41_1, ESP_41_2,ESP_41_3,ESP_41_4,ESP_41_5,
-              ESP_42_1, ESP_42_2, ESP_42_3, ESP_43, ESP_44)
+# Construimos base de datos con selección de tres variables de la original
+CEP <- select(CEP_dic19_spss, DS_P1, DS_P2_EXACTA, ESP_32)
 
-#Renombraremos sólo algunas variables
-CEP <- select(CEP_dic19_spss, sexo = DS_P1, O19 = ESP_32, edad = DS_P2_EXACTA)
+# Luego de seleccionar, podemos sobreescribir el objeto CEP para renombrar variables
+CEP <- rename(CEP, sexo = DS_P1, edad = DS_P2_EXACTA, O19 = ESP_32)
 
-CEP <- rename(CEP, sexo = zap_labels(DS_P1), O19 = ESP_32, edad = DS_P2_EXACTA)
+
+# No obstante, podríamos seleccionar y al mismo tiempo renombrar las variables
+CEP <- select(CEP_dic19_spss, sexo = DS_P1, edad = DS_P2_EXACTA, O19 = ESP_32)
 
 
 # RECODIFICACIÓN
@@ -158,11 +159,15 @@ table(CEP$edad_rango)
 
 # Guardar base de datos con selección de variables y variables recodificadas
 
+# Guarda archivo compriméndolo por defecto (útil para carga en Github y envios email)
+saveRDS(CEP, file = "datos/CEP_dic19_seleccion.rds")
+
+# Guarda archivo sin comprimir
 saveRDS(CEP, file = "datos/CEP_dic19_seleccion.rds", compress = F)
 
 # Limpiar entorno de trabajo y cargar base guardada
 
-base<- readRDS("datos/CEP_dic19_seleccion.rds")
+CEP <- readRDS("datos/CEP_dic19_seleccion.rds")
 
 # ---- 3. BREVE ANÁLISIS ----
 
