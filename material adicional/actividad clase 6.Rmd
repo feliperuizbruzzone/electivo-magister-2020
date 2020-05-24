@@ -1,0 +1,31 @@
+---
+title: "Actividad clase 6"
+author: "Felipe Ruiz y Cristóbal Moya"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+urlcolor: red
+fontsize: 11pt
+output: pdf_document
+---
+# Instrucciones
+
+La idea es que con base a lo aplicado en la `sintaxis sesion 6.R` disponible en el [repositorio Github asociado](https://github.com/feliperuizbruzzone/clase6-2020), desarrolles los siguientes pasos en una nueva sintaxis de R, para cargar la base de datos a utilizar durante el semestre.
+
+a) Asegurate de haber creado un **proyecto de R** anclado a la carpeta de trabajo de tu proyecto semestral (que de acuerdo a entrega 1, debería haber seguido el protocolo TIER disponible en el [repositorio Github vinculado a la clase 5](https://github.com/Crismoc/flujo_reproducible)).[^1]
+
+[^1]: Puedes revisar la definición de qué es un RProject en la [página de RStudio](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
+
+b) Instala los paquetes necesarios para cargar la base de datos (por ejemplo, si debes leer archivos provenientes desde SPSS, deberías instalar el paquete `haven`).[^2] 
+
+[^2]:Para orientarte en la gestión de paquetes puedes revisar el capítulo 5 de este [manual en línea](https://bookdown.org/gboccardo/manual-ED-UCH/manejo-de-la-biblioteca-y-gestion-de-paquetes.html).
+
+c) Carga los paquetes a utilizar en tu sesión de trabajo utilizando el comando `library`.
+
+d) Crea un nuevo objeto, que almacene el resultado de leer la base de datos desde su formato de origen. Las líneas 45, 60, 77 y 80 del archivo `sintaxis sesion 6.R` lo indican para distintos tipos de archivos (*.csv*, *.xlsx*, *.sav* y *.dta*, respectivamente).
+
+e) Crea una nueva base con el subconjunto de variables específico a analizar, utilizando el comando *select* del paquete *dplyr* (ver línea de `sintaxis sesion 6.R`)
+
+d) Guarda tu sintaxis y base de datos en formato R:
+     - La primera puedes guardarla como archivo de código (*R Script*) en la carpeta *código* de tu proyecto, utilizando el botón tipo *disquete* de la botonera del editor de sintaxis. Abrirá un explorador de archivos y podrás guardarla como cualquier otro documento.
+    - La segunda puedes guardarla siguiendo el formato de la línea 163 del archivo *sintaxis sesion 6.R*: `saveRDS(datos, file = "datos/insertar-nombre_archivo.rds")`
+    
+**Efectuar estos pasos durante la semana, te permitirá aprovechar al máximo la clase 7, donde podrás resolver problemas y/o dudas asociadas a la gestión de tu base de datos avanzando de forma sustantiva en lo requerido para la *entrega 2*.**
