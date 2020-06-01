@@ -65,6 +65,7 @@ table(CEP_analisis$edad_rango)
 CEP_analisis$edad_rango <- factor(CEP_analisis$edad_rango, labels= c("18-29", "30-49", "50-69", "70+"))
 table(CEP_analisis$edad_rango)
 
+saveRDS(CEP_analisis, file = "datos/CEP_dic2019_seleccion.RDS")
 
 # ---- 2. CONSTRUIR RESULTADOS DE NIVEL MUESTRAL ----
 
