@@ -8,12 +8,11 @@
 
 CEP <- readRDS("datos/CEP_dic2019_seleccion.RDS")
 
+install.packages(c("summarytools", "tidyverse"))
+
 library(summarytools)
 library(ggplot2)
 library(dplyr)
-install.packages("ggtheme")
-install.packages("googlesheets4")
-install.packages("readODS")
 
 # ---- 2. EXPORTAR TABLAS A CONSOLIDADO DE RESULTADOS ----
 
@@ -35,8 +34,12 @@ descr(CEP$edad, transpose = T,
 # Estadísticos de resumen variable edad según posición manifestaciones 0-19, sin ponderar
 with(CEP, stby(data= edad, INDICES = O19_rec,
                         FUN = descr, 
-                        stats = "common",
+                        stats = "common", weights = CEP$pond,
                         transpose = T))
+
+# ¿Cómo podemos extraer estos resultados en un formato reproducible y que a la vez interactúe con otros software?
+# Omitiremos por principio el expulsar resultados a planillas
+# Con estos cuatro resultados podemos usar el código para construir un reporte reproducible con RMarkdown.
 
 # ---- 3. CONSTRUIR GRÁFICOS ----
 
@@ -99,4 +102,4 @@ CEP %>%
 
 
 # ---- 4. EJEMPLO SOBRE COMO UTILIZAR MANUAL PARA APRENDER SOBRE USO DE MAPAS -----
-#https://arcruz0.github.io/libroadp/mapas.html
+# https://arcruz0.github.io/libroadp/mapas.html

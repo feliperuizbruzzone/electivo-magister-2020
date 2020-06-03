@@ -1,0 +1,88 @@
+---
+title: "Ejemplo de resultados con RMarkdown"
+subtitle: "Curso electivo: Ciencia Abierta y Software Libre"
+author: "Felipe Ruiz"
+date: "03-06-2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(summarytools)
+library(tidyverse)
+CEP <- readRDS("CEP_dic2019_seleccion.RDS")
+```
+
+# Ejemplo de exportación de resultados
+
+A continuación ingresaremos los diferentes elementos ya calculados en la *sintaxis sesión 10* a un reporte reproducible. La única diferencia respecto al cálculo sobre la sintaxis de R es que estamos agregando un argumento adicional de tipo *style = "rmarkdown", que le indica al programa que debe imprimir la tabla en un resultado procesable por esta plataforma.
+
+Desde este reporte en formato *Html* podemos copiar cualquier tabla y copiarla a un editor de planillas o texto: Microsoft Excel, Microsoft Word, Libre/Open Writer, Libre/Open Calc, Google Docs, Google Sheets, entre otros.
+
+## Resultado 1
+
+Cálculo de frecuencias **ponderadas** con función *freq* del paquete **summarytools**: posición ante manifestaciones de Octubre del año 2019.
+```{r resultado1, results ='asis'}
+freq(CEP$O19_rec, weights = CEP$pond,
+     style = "rmarkdown")
+```
+
+## Resultado 2
+
+Cálculo de una tabla de contingencia - doble entrada - con frecuencias **ponderadas** mediante la función *ctable* del paquete **summarytools**: posición ante manifestaciones de Octubre del año 2019 según sexo (perfil columna).
+
+```{r resultado2, results='asis'}
+ctable(CEP$sexorec, CEP$O19_rec, prop = "c",
+       weights = CEP$pond,
+       style = "rmarkdown")
+```
+
+## Resultado 3
+
+Cálculo de estadísticos de resumen **ponderados** de la variable *edad*, mediante la función *descr* del paquete **summarytools**.
+
+```{r resultado3, results='asis'}
+descr(CEP$edad, transpose = T, 
+      stats = "common", weights = CEP$pond)
+```
+
+## Resultado 4
+
+Cálculo de estadísticos de resumen **ponderados** de la variable *edad*, según las categorías de la variable *posición ante manifestaciones de Octubre del año 2019*, mediante la función *descr* del paquete **summarytools**.
+
+Acá se usa una función *with*, para ejecutar un *stby*: cálculo de estadísticos de resumen, según grupos de una segunda variable. 
+
+```{r resultado4, results='asis'}
+with(CEP, stby(data= edad, INDICES = O19_rec,
+                        FUN = descr, 
+                        stats = "common", weights = CEP$pond,
+                        transpose = T))
+```
+
+## Resultado 5
+
+Gráfica construida con herramientas básicas de R.
+
+```{r gráficosimple}
+plot(CEP$O19_rec, ylab = "Frecuencia", xlab = "Posición frente a manifestaciones",
+     main = "Gráfico de barras")
+```
+
+## Resultado 6
+
+Gráfica construida con herramientas avanzadas y especializada en esa área: paquete *ggplot2*.
+
+```{r gráficos_ggplot}
+CEP %>% 
+  filter(!is.na(O19_rec)) %>% 
+  ggplot() +
+  geom_bar(mapping = aes(x = O19_rec, y = (..count..)/sum(..count..), fill = factor(sexorec)),
+           position = "dodge") + # Probar sacando "position"
+  scale_y_continuous(labels=scales::percent) +
+  xlab("Opinión respecto a movilizaciones O19") +
+  scale_fill_manual("Género",
+                    values = c("#E41A1C", "#377EB8"),
+                    labels = c("Hombre", "Mujer")) +
+  ylab("Porcentaje")
+```
+
